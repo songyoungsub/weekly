@@ -4,7 +4,8 @@
 
 .weekly_page {
     width: 100%;
-    height: 200px;
+    min-height: 200px;
+    height: auto;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -19,9 +20,10 @@
     flex-direction: column;
     align-items: center;
     gap: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
 }
 
 .week {
     text-decoration: none;
+    margin-bottom: 20px;
 }

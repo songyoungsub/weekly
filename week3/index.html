@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/reset.css">
+    <link rel="stylesheet" href="/weekly_style.css">
+    <title>week2</title>
+</head>
+<body>
+    <header class="main_page">
+        <a class="main_link" href="/">메인화면</a>
+    </header>
+    <main>
+        <h1 id="variable_declaration">var, let, const</h1>
+        <h2>var</h2>
+        <div>
+            <p>var 키워드는 <span>ES6</span>에서 let과 const가 추가 되기 전에 사용한 변수 선언 키워드이다.</p>
+            <p>var키워드는 크게 세가지의 문제점이 존재한다.</p>
+            <ui>
+                <li>변수선언문 이전의 코드에서 변수 사용이 가능한 <span>호이스팅</span>이 일어난다.</li>
+                <li><span>중복 선언</span>이 가능하여 의도치 않은 결과를 반환한다.</li>
+                <li><span>함수 스코프</span>를 가지고 있어 함수 외부에서 선언한 변수는 모두 <span>전역 변수로 된다.</span></li>
+            </ol>
+            <p>ES6에서 나온 let과 const 키워드는 위의 세 가지 문제점을 해결했다.</p>
+        </div>
+        <h2>let과 const</h2>
+        <div>
+            <p>let과 const 키워드는 호이스팅이 일어나지 않아 선언 전에 참조 시 에러가 난다.</p>
+            <p><span>let 키워드</span>로는 변수 중복 선언이 불가하지만, 재할당은 가능하다.</p>
+            <p>
+                <span>const</span>도 let과 마찬가지로 재선언이 불가하며, 더 나아가 재할당도 불가능하다.<br>
+                const의 재할당의 경우, 원시 값은 불가능하지만, 객체는 가능하다.
+            </p>
+            <p>let, const 키워드로 선언한 변수는 모두 <span>코드 블록</span>(ex. 함수, if, for, while, try/catch 문 등)을 지역 스코프로 인정하는 블록 레벨 스코프를 따른다.</p>
+        </div>
+
+        
+        <h1 id="this_keyword">자바스크립트에서 this 키워드의 사용과 그 특성</h1>
+        <h2>this란?</h2>
+        <div>
+            <p>
+                자바스크립트에서 this 키워드는 함수나 메서드가 호출되는 방식에 따라 그 값이 결정되는 동적인 특성을 가지고 있다. 
+                이는 함수의 실행 컨텍스트에 따라 달라지며, 함수가 어떻게 호출되었는지에 따라 this의 값이 결정된다.
+            </p>
+            <p>
+                왜냐하면 this는 실행 시점에 결정되기 때문에, 선언 시점에서는 그 값을 알 수 없다.
+            </p>
+            <p>
+                일반적으로, 전역 스코프에서 this는 <span>전역 객체(window 객체)</span>를 가리키고, 메서드로서 호출될 때는 <span>해당 메서드를 호출한 객체</span>를 가리킵니다. 
+                하지만, 함수로서 호출될 때는 전역 객체를 가리키는 경우가 일반적이다.
+            </p>
+            <p>아래 예시는 this가 어떻게 다르게 작동하는지 보여준다.</p>
+            <pre>
+                const person = {
+                    name: 'John',
+                    greet: function() { console.log('Hello, ' + this.name); }
+                };
+                person.greet(); // 'Hello, John'이 출력.
+                
+                const greetFunction = person.greet;
+                greetFunction(); // 'Hello, '가 출력되고, this.name은 undefined이다.
+            </pre>
+        </div>
+        <h2>this의 다양한 사용 사례와 문제점</h2>
+        <div>
+            <p>
+                js에서 this의 가장 큰 문제점 중 하나는 예측하지 못한 컨텍스트에서의 사용이다. 특히, 콜백 함수나 이벤트 핸들러에서 this의 값이 달라질 수 있어 개발자를 혼란스럽게 한다.
+            </p>
+            <p>
+                콜백 함수나 이벤트 핸들러가 어떤 객체의 메서드로서 호출되지 않는 경우, this는 <span>전역 객체</span>나 <span>undefined</span>를 가리키게 된다.
+                이는 코드의 예측 가능성을 떨어뜨리고 버그를 유발할 수 있다.
+            </p>
+            <p>
+                또한, 클래스와 생성자 함수에서 this를 사용할 때도 주의가 필요하다. 생성자 함수 내부에서 this는 새로 생성될 인스턴스를 가리키지만, 
+                메서드가 아닌 일반 함수로서 호출될 경우 this의 값이 달라질 수 있다.
+            </p>
+            <p>
+                이러한 문제를 해결하기 위해 ES6에서는 <span>화살표 함수</span>를 도입했습니다. 화살표 함수는 자신을 포함하는 외부 스코프의 this를 가리키므로, this의 값이 변하지 않는 것을 보장한다.
+            </p>
+            <p>
+                아래 코드는 화살표 함수를 사용하여 this 문제를 해결하는 예시이다.
+            </p>
+            <pre>
+                const person = {
+                    name: 'John',
+                    greet: function() { 
+                        setTimeout(() => {
+                            console.log('Hello, ' + this.name);
+                        }, 1000);
+                    }
+                };
+                person.greet(); // 1초 후 'Hello, John'이 출력.
+            </pre>
+        </div>
+        <h2>this 바인딩의 명시적 방법</h2>
+        <div>
+            <p>
+                js에서는 this 바인딩을 명시적으로 할당하는 방법도 제공합니다. <span>call, apply, bind 메서드</span>를 사용하면 함수 호출 시 this의 값을 명시적으로 지정할 수 있습니다.
+            </p>
+            <p>
+                이 메서드들은 첫 번째 인자로 this에 바인딩할 객체를 받고, 이를 통해 함수의 실행 컨텍스트를 명시적으로 설정할 수 있다.
+            </p>
+            <p>
+                <span>call</span>과 <span>apply</span>는 함수를 즉시 호출하지만, <span>bind</span>는 함수를 호출하지 않고 this가 바인딩된 새로운 함수를 반환한다.
+            </p>
+            <p>
+                이러한 방법을 통해 this의 값이 예기치 않게 변경되는 것을 방지하고, 코드의 가독성과 안정성을 높일 수 있다.
+            </p>
+            <p>아래 예시는 call, apply, bind를 사용한 this 바인딩의 예시이다.</p>
+            <pre>
+                function greet() {
+                    console.log('Hello, ' + this.name);
+                }
+                
+                const person = { name: 'John' };
+                greet.call(person); // 'Hello, John'이 출력.
+                greet.apply(person); // 'Hello, John'이 출력.
+                
+                const boundGreet = greet.bind(person);
+                boundGreet(); // 'Hello, John'이 출력.
+            </pre>
+        </div>
+        <h1 id="Lexical_Scope">렉시컬 스코프(Lexical Scope)의 개념과 그 특성</h1>
+        <h2>렉시컬 스코프란(Lexical Scope)란?</h2>
+        <div>
+            <p>
+                함수를 어디서 호출하는지가 아니라 <span>어디에 선언하였는지에 따라 결정되는 것</span>을 말한다.
+            </p>
+            <p>
+                즉, 함수를 어디서 선언하였는지에 따라 상위 스코프를 결정한다는 뜻이며, 가장 중요한 점은 함수의 호출이 아니라 <span>함수의 선언에 따라 결정된다는 점</span>이다.
+            </p>
+            <p>
+                다른 말로, <span>정적 스코프(Static scope)</span>라 부르기도 하며 js를 비롯한 대부분의 프로그래밍 언어는 렉시컬 스코프를 따른다.
+            </p>
+            <p>
+                예를 들어 아래의 코드를 보면
+            </p>
+            <pre>
+                var x = 1; // global
+
+                function first() {
+                var x = 10;
+                second();
+                }
+
+                function second() {
+                console.log(x);
+                }
+
+                first(); // ?
+                second(); // ?
+            </pre>
+            <p>
+                위 코드를 실행하면 10과 1이 나올 것 같지만 결과는 1과 1이 나온다.
+            </p>
+            <p>
+                자바스크립트에서는 위와 같은 코드를 작성할 때, 이미 실행 단계에서 코드들의 스코프를 결정한다.
+            </p>
+            <ui>
+                <li>global 범위에 있는 변수 x</li>
+                <li>first() 함수 안에 있는 변수 x</li>
+                <li> second() 함수 안에 있는 변수 x</li>
+            </ui>
+            <p>
+                위 예제의 실행 결과는 함수 second()의 상위 스코프가 무엇인지에 따라 결정된다.<br>
+                자바스크립트는 렉시컬 스코프(Lexical Scope)를 따르므로 <span>함수를 선언한 시점</span>에 상위 스코프가 결정된다.
+            </p>
+            <p><span>즉, 이 말은 함수를 어디에서 호출하였는지는 스코프 결정에 아무런 의미를 주지 않는다는 뜻이다.</span></p>
+            <p>
+                그렇기 때문에, second() 함수가 first() 함수 안에서 호출된 것과 상관없이 second() 함수는 
+                global 범위에 선언되어 있으므로, global 범위에 있는 변수 x의 값 1이 두 번 출력된다.
+            </p>
+        </div>
+    </main>
+    <footer class="main_page">
+        <a class="main_link" href="/">메인화면</a>
+    </footer>
+</body>
+</html>
